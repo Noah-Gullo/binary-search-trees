@@ -64,6 +64,15 @@ export class Tree{
         }
     }
 
+    #findLargest(root){
+        if(root.right.right == null) {
+            let value = root.right.data;
+            root.right = null;
+            return value;
+        }
+        return this.#findLargest(root.right); 
+    }
+
     deleteItem(value, root, previous){
         if(root === null) return;
 
@@ -91,7 +100,17 @@ export class Tree{
                 }
                 return;
             }else{ 
-
+                let largest = this.#findLargest(root);
+                if(previous.data > root.data){
+                    previous.left.data = largest; 
+                    previous.left.left = root.left;
+                    previous.left.right =  root.right;
+                }else if(previous.data < root.data){
+                    previous.right.data = largest.data; 
+                    previous.right.left = root.left;
+                    previous.right.right =  root.right;
+                }
+                return;
             }
         }
 
@@ -139,5 +158,5 @@ function prettyPrint(node, prefix = '', isLeft = true){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.deleteItem(9, tree.root, null);
+tree.deleteItem(4, tree.root, null);
 prettyPrint(tree.root);
