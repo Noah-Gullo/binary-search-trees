@@ -55,12 +55,33 @@ export class Tree{
         }else if(value < root.data){
             next = root.left;
             if(root.left === null){
-                root.left = new Node(value, null, null);
+                root.left = new Node();
                 root.left.data = value;
                 return;
             }else{
                 return this.insert(value, next);
             }
+        }
+    }
+
+    deleteItem(value, root, previous){
+        if(root === null) return;
+
+        if(root.data === value){
+            if(root.left === null && root.right === null){
+                if(previous.data > root.data){
+                    previous.left = null;
+                }else if(previous.data < root.data){
+                    previous.right = null
+                }
+                return;
+            }
+        }
+
+        if(value < root.data){
+            return this.deleteItem(value, root.left, root);
+        }else if(value > root.data){
+            return this.deleteItem(value, root.right, root);
         }
     }
 }
@@ -100,4 +121,5 @@ function prettyPrint(node, prefix = '', isLeft = true){
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree.deleteItem(7, tree.root, null);
 prettyPrint(tree.root);
