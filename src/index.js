@@ -14,11 +14,26 @@ export class Tree{
     #buildTree(array){
         array = [...new Set(array)];
         array = mergeSort(array);
-        return null;
+
+        function build(arr, start, end){
+            if(start > end) return null;
+            
+            let mid = start + Math.floor((end - start) / 2);
+            let root = new Node();
+            root.data = arr[mid];
+            root.left = build(arr, start, mid - 1);
+            root.right = build(arr, mid + 1, end);
+
+            return root;
+        }
+
+        let bst = build(array, 0, array.length);
+        prettyPrint(bst);
+        return bst;
     }
 }
 
-export function mergeSort(arr) {
+function mergeSort(arr) {
     if (arr.length <= 1){
         return arr;
     }
@@ -42,4 +57,14 @@ function merge(left, right){
   return [...sortedArr, ...left, ...right]
 }
 
-const tree = new Tree([50, 1, 3, 32, 21]);
+function prettyPrint(node, prefix = '', isLeft = true){
+  if (node === null || node === undefined) {
+    return;
+  }
+
+  prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+}
+
+const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
