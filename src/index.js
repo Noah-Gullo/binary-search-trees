@@ -75,6 +75,23 @@ export class Tree{
                     previous.right = null
                 }
                 return;
+            }else if(root.left === null || root.right == null){
+                let temp = root.left;
+
+                if(root.right != null){
+                    temp = root.right;
+                }
+
+                if(previous.data > root.data){
+                    previous.left = null;
+                    previous.left = temp;
+                }else if(previous.data < root.data){
+                    previous.right = null;
+                    previous.right = temp;
+                }
+                return;
+            }else{ 
+
             }
         }
 
@@ -121,5 +138,6 @@ function prettyPrint(node, prefix = '', isLeft = true){
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-tree.deleteItem(7, tree.root, null);
+prettyPrint(tree.root);
+tree.deleteItem(9, tree.root, null);
 prettyPrint(tree.root);
