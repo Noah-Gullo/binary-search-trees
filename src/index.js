@@ -14,7 +14,6 @@ export class Tree{
     #buildTree(array){
         array = [...new Set(array)];
         array = mergeSort(array);
-
         function build(arr, start, end){
             if(start > end) return null;
             
@@ -28,7 +27,6 @@ export class Tree{
         }
 
         let bst = build(array, 0, array.length);
-        prettyPrint(bst);
         return bst;
     }
 
@@ -40,6 +38,29 @@ export class Tree{
             return this.includes(value, root.right);
         }else if(value < root.data){
             return this.includes(value, root.left);
+        }
+    }
+
+    insert(value, root){
+        let next;
+        if(value > root.data){
+            next = root.right;
+            if(root.right === null){
+                root.right = new Node();
+                root.right.data = value;
+                return;
+            }else{
+                return this.insert(value, next);
+            }
+        }else if(value < root.data){
+            next = root.left;
+            if(root.left === null){
+                root.left = new Node(value, null, null);
+                root.left.data = value;
+                return;
+            }else{
+                return this.insert(value, next);
+            }
         }
     }
 }
@@ -79,3 +100,4 @@ function prettyPrint(node, prefix = '', isLeft = true){
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(tree.root);
