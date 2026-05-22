@@ -19,6 +19,7 @@ export class Tree{
             
             let mid = start + Math.floor((end - start) / 2);
             let root = new Node();
+
             root.data = arr[mid];
             root.left = build(arr, start, mid - 1);
             root.right = build(arr, mid + 1, end);
@@ -26,7 +27,7 @@ export class Tree{
             return root;
         }
 
-        let bst = build(array, 0, array.length);
+        let bst = build(array, 0, array.length - 1);
         return bst;
     }
 
@@ -101,14 +102,18 @@ export class Tree{
                 return;
             }else{ 
                 let largest = this.#findLargest(root);
-                if(previous.data > root.data){
-                    previous.left.data = largest; 
-                    previous.left.left = root.left;
-                    previous.left.right =  root.right;
-                }else if(previous.data < root.data){
-                    previous.right.data = largest.data; 
-                    previous.right.left = root.left;
-                    previous.right.right =  root.right;
+                if(previous != null){
+                    if(previous.data > root.data){
+                        previous.left.data = largest; 
+                        previous.left.left = root.left;
+                        previous.left.right =  root.right;
+                    }else if(previous.data < root.data){
+                        previous.right.data = largest; 
+                        previous.right.left = root.left;
+                        previous.right.right =  root.right;
+                    }
+                }else{
+                    root.data = largest;
                 }
                 return;
             }
@@ -158,5 +163,5 @@ function prettyPrint(node, prefix = '', isLeft = true){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.deleteItem(4, tree.root, null);
+tree.deleteItem(8, tree.root, null);
 prettyPrint(tree.root);
