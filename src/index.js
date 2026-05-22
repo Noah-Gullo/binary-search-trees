@@ -31,6 +31,17 @@ export class Tree{
         prettyPrint(bst);
         return bst;
     }
+
+    includes(value, root){
+        if(root === null) return false;
+        if(root.data === value) return true;
+
+        if(value > root.data){
+            return this.includes(value, root.right);
+        }else if(value < root.data){
+            return this.includes(value, root.left);
+        }
+    }
 }
 
 function mergeSort(arr) {
