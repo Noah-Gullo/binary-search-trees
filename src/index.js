@@ -194,8 +194,17 @@ export class Tree{
         }
     }
 
-    depth(value){
+    depth(value, root, currDepth = 0){
+        if(!root) return -1;
+        if(root.data === value) return currDepth;
 
+        if(value < root.data){
+            return this.depth(value, root.left, currDepth + 1);
+        }
+        
+        if (value > root.data){
+            return this.depth(value, root.right, currDepth + 1);
+        }
     }
 
     isBalanced(){
@@ -243,4 +252,4 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.height(9, tree.root));
+console.log(tree.depth(9, tree.root));
