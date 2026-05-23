@@ -144,6 +144,13 @@ export class Tree{
             visitQueue = visitQueue.slice(1);
         }
     }   
+
+    inOrderForEach(callback, node){
+        if(node === null) return;
+        this.inOrderForEach(callback, node.left);
+        callback(node.data);
+        this.inOrderForEach(callback, node.right);
+    }
 }
 
 function mergeSort(arr) {
@@ -186,4 +193,4 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.levelOrderForEach(printNode);
+tree.inOrderForEach(printNode, tree.root);
