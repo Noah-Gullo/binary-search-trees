@@ -146,6 +146,7 @@ export class Tree{
     }   
 
     inOrderForEach(callback, node){
+        if(callback === null) throw Error("No callback given");
         if(node === null) return;
         this.inOrderForEach(callback, node.left);
         callback(node.data);
@@ -153,6 +154,7 @@ export class Tree{
     }
 
     preOrderForEach(callback, node){
+        if(callback === null) throw Error("No callback given");
         if(node === null) return;
         callback(node.data);
         this.preOrderForEach(callback, node.left);
@@ -160,6 +162,7 @@ export class Tree{
     }
 
     postOrderForEach(callback, node){
+        if(callback === null) throw Error("No callback given");
         if(node === null) return;
         this.preOrderForEach(callback, node.left);
         this.preOrderForEach(callback, node.right);
