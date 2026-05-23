@@ -8,10 +8,10 @@ export class Node{
 
 export class Tree{
     constructor(array){
-        this.root = this.#buildTree(array);
+        this.root = this.#buildbst(array);
     }
 
-    #buildTree(array){
+    #buildbst(array){
         array = [...new Set(array)];
         array = mergeSort(array);
         function build(arr, start, end){
@@ -161,11 +161,12 @@ export class Tree{
         this.preOrderForEach(callback, node.right);
     }
 
-    postOrderForEach(callback, node){
-        if(callback === null) throw Error("No callback given");
-        if(node === null) return;
-        this.preOrderForEach(callback, node.left);
-        this.preOrderForEach(callback, node.right);
+    postOrderForEach(callback, node = this.root) {
+        if (!callback) throw Error("No callback given");
+        if (node === null) return;
+
+        this.postOrderForEach(callback, node.left);
+        this.postOrderForEach(callback, node.right);
         callback(node.data);
     }
 
@@ -206,23 +207,31 @@ export class Tree{
             return this.depth(value, root.right, currDepth + 1);
         }
     }
+    
+    isBalanced(root = this.root) {
+        if (root === null) return true;
 
-    isBalanced(root){
-       if(root === null) return true;
+        const leftHeight = this.#heightNode(root.left);
+        const rightHeight = this.#heightNode(root.right);
 
-       const leftHeight = this.height(root.left, root);
-       const rightHeight = this.height(root.right, root);
+        if (Math.abs(leftHeight - rightHeight) > 1) return false;
 
-       if(Math.abs(leftHeight - rightHeight) > 1) return false;
+        return this.isBalanced(root.left) && this.isBalanced(root.right);
+    }
 
-       return this.isBalanced(root.left) && this.isBalanced(root.right);
+    #heightNode(node) {
+        if (node === null) return -1;
+
+        return 1 + Math.max(
+            this.#heightNode(node.left),
+            this.#heightNode(node.right)
+        );
     }
     
-    rebalance(nodes, start, end){
+    rebalance() {
         const sorted = [];
         this.inOrderForEach((data) => sorted.push(data), this.root);
-
-        this.root = this.#buildTree(sortedData);
+        this.root = this.#buildbst(sorted);
     }
 }
 
@@ -259,10 +268,3 @@ function prettyPrint(node, prefix = '', isLeft = true){
   console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
   prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
 }
-
-function printNode(value){
-    console.log(value);
-}
-
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(tree.root);
