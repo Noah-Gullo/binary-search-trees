@@ -217,6 +217,13 @@ export class Tree{
 
        return this.isBalanced(root.left) && this.isBalanced(root.right);
     }
+    
+    rebalance(nodes, start, end){
+        const sorted = [];
+        this.inOrderForEach((data) => sorted.push(data), this.root);
+
+        this.root = this.#buildTree(sortedData);
+    }
 }
 
 function mergeSort(arr) {
@@ -259,4 +266,3 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.isBalanced(tree.root));
