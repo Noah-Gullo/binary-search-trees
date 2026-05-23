@@ -151,6 +151,20 @@ export class Tree{
         callback(node.data);
         this.inOrderForEach(callback, node.right);
     }
+
+    preOrderForEach(callback, node){
+        if(node === null) return;
+        callback(node.data);
+        this.preOrderForEach(callback, node.left);
+        this.preOrderForEach(callback, node.right);
+    }
+
+    postOrderForEach(callback, node){
+        if(node === null) return;
+        this.preOrderForEach(callback, node.left);
+        this.preOrderForEach(callback, node.right);
+        callback(node.data);
+    }
 }
 
 function mergeSort(arr) {
@@ -193,4 +207,4 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.inOrderForEach(printNode, tree.root);
+tree.preOrderForEach(printNode, tree.root);
