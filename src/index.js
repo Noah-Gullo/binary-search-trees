@@ -168,6 +168,39 @@ export class Tree{
         this.preOrderForEach(callback, node.right);
         callback(node.data);
     }
+
+    height(value, root){
+        let select;
+        if(root === null) return undefined;
+        if(value === root.data) {
+            return findHeight(root);
+        }
+
+        if(value > root.data){
+            return this.height(value, root.right);
+        }else if(value < root.data){
+            return this.height(value, root.left);
+        }
+
+        function findHeight(node){
+            if(node == null || node == undefined) {
+                return -1;
+            }
+            
+            let leftHeight = findHeight(node.left);
+            let rightHeight = findHeight(node.right);
+
+            return 1 + Math.max(leftHeight, rightHeight);
+        }
+    }
+
+    depth(value){
+
+    }
+
+    isBalanced(){
+
+    }
 }
 
 function mergeSort(arr) {
@@ -210,4 +243,4 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.preOrderForEach(printNode, tree.root);
+console.log(tree.height(9, tree.root));
