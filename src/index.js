@@ -207,8 +207,15 @@ export class Tree{
         }
     }
 
-    isBalanced(){
+    isBalanced(root){
+       if(root === null) return true;
 
+       const leftHeight = this.height(root.left, root);
+       const rightHeight = this.height(root.right, root);
+
+       if(Math.abs(leftHeight - rightHeight) > 1) return false;
+
+       return this.isBalanced(root.left) && this.isBalanced(root.right);
     }
 }
 
@@ -252,4 +259,4 @@ function printNode(value){
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.depth(9, tree.root));
+console.log(tree.isBalanced(tree.root));
