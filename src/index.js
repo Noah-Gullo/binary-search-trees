@@ -125,6 +125,25 @@ export class Tree{
             return this.deleteItem(value, root.right, root);
         }
     }
+
+    levelOrderForEach(callback){
+        let visitQueue = [];
+        visitQueue.push(this.root);
+        while(visitQueue.length != 0){
+            let currNode = visitQueue[0];
+            callback(currNode.data);
+
+            if(currNode.left != null){
+                visitQueue.push(currNode.left);
+            }
+            
+            if(currNode.right != null){
+                visitQueue.push(currNode.right);
+            }
+
+            visitQueue = visitQueue.slice(1);
+        }
+    }   
 }
 
 function mergeSort(arr) {
@@ -161,7 +180,10 @@ function prettyPrint(node, prefix = '', isLeft = true){
   prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
 }
 
+function printNode(value){
+    console.log(value);
+}
+
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.deleteItem(8, tree.root, null);
-prettyPrint(tree.root);
+tree.levelOrderForEach(printNode);
